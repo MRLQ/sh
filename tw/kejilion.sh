@@ -4525,9 +4525,8 @@ linux_clean() {
 
 bbr_on() {
 
-cat > /etc/sysctl.conf << EOF
-net.ipv4.tcp_congestion_control=bbr
-EOF
+sed -i '/net.ipv4.tcp_congestion_control=/d' /etc/sysctl.conf
+echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 sysctl -p
 
 }
@@ -7057,7 +7056,7 @@ linux_bbr() {
 					send_stats "alpine開啟bbr3"
 					  ;;
 				  2)
-					sed -i '/net.ipv4.tcp_congestion_control=bbr/d' /etc/sysctl.conf
+					sed -i '/net.ipv4.tcp_congestion_control=/d' /etc/sysctl.conf
 					sysctl -p
 					server_reboot
 					  ;;
@@ -11583,6 +11582,7 @@ while true; do
 			  -v /home/docker/komari:/app/data \
 			  -e ADMIN_USERNAME=admin \
 			  -e ADMIN_PASSWORD=1212156 \
+			  -e TZ=Asia/Shanghai \
 			  --restart=always \
 			  ghcr.io/komari-monitor/komari:latest
 
@@ -13613,7 +13613,7 @@ EOF
 				  ;;
 			  4)
 				  send_stats "智能切換更新源"
-				  switch_mirror true true
+				  switch_mirror false false
 				  ;;
 
 			  *)
@@ -14060,7 +14060,7 @@ EOF
 				  clear
 				  send_stats "一條龍調優啟動"
 				  echo "------------------------------------------------"
-				  switch_mirror true true
+				  switch_mirror false false
 				  linux_update
 				  echo -e "[${gl_lv}OK${gl_bai}] 1/12. 更新系統到最新"
 
