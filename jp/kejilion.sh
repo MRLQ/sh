@@ -251,7 +251,7 @@ remove() {
 	fi
 
 	for package in "$@"; do
-		echo -e "${gl_huang}アンインストール中$package...${gl_bai}"
+		echo -e "${gl_huang}アンインストールする$package...${gl_bai}"
 		if command -v dnf &>/dev/null; then
 			dnf remove -y "$package"
 		elif command -v yum &>/dev/null; then
@@ -858,7 +858,7 @@ open_port() {
 
 		if ! iptables -C INPUT -p udp --dport $port -j ACCEPT 2>/dev/null; then
 			iptables -I INPUT 1 -p udp --dport $port -j ACCEPT
-			echo "ポートがオープンしました$port"
+			echo "ポートがオープンされました$port"
 		fi
 	done
 
@@ -1186,7 +1186,7 @@ iptables_panel() {
 				  ;;
 
 			  15)
-				  read -e -p "ブロックされている国コードを入力してください (CN US JP のように、複数の国コードをスペースで区切ることができます):" country_code
+				  read -e -p "ブロックされている国コードを入力してください (CN US JP のように、複数の国コードをスペースで区切ることができます)。" country_code
 				  manage_country_rules block $country_code
 				  send_stats "国を許可する$country_codeIP"
 				  ;;
@@ -1665,7 +1665,7 @@ cf_purge_cache() {
 	# キャッシュをクリアするかどうかをユーザーに確認する
 	read -e -p "Cloudflareのキャッシュをクリアする必要がありますか? (y/n):" answer
 	if [[ "$answer" == "y" ]]; then
-	  echo "CF 情報は次の場所に保存されます。$CONFIG_FILECF 情報は後で変更できます。"
+	  echo "CF情報は以下に保存されます。$CONFIG_FILECF 情報は後で変更できます。"
 	  read -e -p "API_TOKEN を入力してください:" API_TOKEN
 	  read -e -p "CF ユーザー名を入力してください:" EMAIL
 	  read -e -p "zone_id を入力してください (複数の場合はスペースで区切ります):" -a ZONE_IDS
@@ -1906,7 +1906,7 @@ nginx_br() {
 		sed -i '/brotli_types/,+6 s/^\(\s*\)#\s*/\1/' /home/web/nginx.conf
 
 	elif [ "$mode" == "off" ]; then
-		# ブロトリを閉じる: コメントを追加
+		# Brotliを閉じる: コメントを追加
 		sed -i 's|^load_module /etc/nginx/modules/ngx_http_brotli_filter_module.so;|# load_module /etc/nginx/modules/ngx_http_brotli_filter_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 		sed -i 's|^load_module /etc/nginx/modules/ngx_http_brotli_static_module.so;|# load_module /etc/nginx/modules/ngx_http_brotli_static_module.so;|' /home/web/nginx.conf > /dev/null 2>&1
 
@@ -2155,7 +2155,7 @@ web_security() {
 					  send_stats "高負荷により5秒シールドが可能"
 					  echo -e "${gl_huang}Web サイトは 5 分ごとに自動的に検出します。高負荷を検出すると自動的にシールドが開き、低負荷を検出すると5秒間自動的にシールドが閉じます。${gl_bai}"
 					  echo "--------------"
-					  echo "CF パラメータを取得します。"
+					  echo "CFパラメータを取得します。"
 					  echo -e "cf バックエンドの右上隅にある私のプロフィールに移動し、左側で API トークンを選択して、${gl_huang}Global API Key${gl_bai}"
 					  echo -e "cf バックエンド ドメイン名の概要ページの右下に移動して取得します。${gl_huang}エリアID${gl_bai}"
 					  echo "https://dash.cloudflare.com/login"
@@ -2480,7 +2480,7 @@ check_docker_image_update() {
 	# 公式画像のサポートを追加
 	[[ "$image_repo" != */* ]] && image_repo="library/$image_repo"
 
-	# Docker Hub APIからイメージのリリース時刻を取得する
+	# Docker Hub APIからイメージのリリース時間を取得する
 	local hub_info=$(curl -s "https://hub.docker.com/v2/repositories/$image_repo/tags/$image_tag")
 	local last_updated=$(echo "$hub_info" | jq -r '.last_updated' 2>/dev/null)
 
@@ -2528,7 +2528,7 @@ block_container_port() {
 		iptables -I DOCKER-USER -p tcp -s "$allowed_ip" -d "$container_ip" -j ACCEPT
 	fi
 
-	# ローカルネットワーク127.0.0.0/8をチェックして許可します。
+	# ローカルネットワーク127.0.0.0/8を確認して許可します。
 	if ! iptables -C DOCKER-USER -p tcp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT &>/dev/null; then
 		iptables -I DOCKER-USER -p tcp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT
 	fi
@@ -2545,7 +2545,7 @@ block_container_port() {
 		iptables -I DOCKER-USER -p udp -s "$allowed_ip" -d "$container_ip" -j ACCEPT
 	fi
 
-	# ローカルネットワーク127.0.0.0/8をチェックして許可します。
+	# ローカルネットワーク127.0.0.0/8を確認して許可します。
 	if ! iptables -C DOCKER-USER -p udp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT &>/dev/null; then
 		iptables -I DOCKER-USER -p udp -s 127.0.0.0/8 -d "$container_ip" -j ACCEPT
 	fi
@@ -2913,7 +2913,7 @@ docker_app_plus() {
 			1)
 				setup_docker_dir
 				check_disk_space $app_size /home/docker
-				read -e -p "アプリケーションの外部サービス ポートを入力し、Enter キーを押してデフォルトで使用します。${docker_port}ポート：" app_port
+				read -e -p "アプリケーションの外部サービス ポートを入力し、Enter キーを押して、それをデフォルトで使用します。${docker_port}ポート：" app_port
 				local app_port=${app_port:-${docker_port}}
 				local docker_port=$app_port
 				install jq
@@ -3464,7 +3464,7 @@ stream_panel() {
 				send_stats "レイヤー 4 プロキシを追加する"
 				;;
 			5)
-				send_stats "転送設定を編集する"
+				send_stats "転送設定の編集"
 				read -e -p "編集するサービス名を入力してください:" stream_name
 				install nano
 				nano /home/web/stream.d/$stream_name.conf
@@ -4056,7 +4056,7 @@ generate_access_urls() {
 			done
 		fi
 
-		# HTTPS 構成の処理
+		# HTTPS 構成を処理する
 		for port in "${ports[@]}"; do
 			if [[ $port != "8055" && $port != "8056" ]]; then
 				local frps_search_pattern="${ipv4_address}:${port}"
@@ -4694,7 +4694,7 @@ add_sshkey() {
 		   -e 's/^\s*#\?\s*ChallengeResponseAuthentication .*/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
 	rm -rf /etc/ssh/sshd_config.d/* /etc/ssh/ssh_config.d/*
 	restart_ssh
-	echo -e "${gl_lv}ROOT 秘密キー ログインがオンになり、ROOT パスワード ログインがオフになり、再接続が有効になります。${gl_bai}"
+	echo -e "${gl_lv}ROOT秘密キーログインがオンになり、ROOTパスワードログインがオフになり、再接続が有効になります${gl_bai}"
 
 }
 
@@ -4744,7 +4744,7 @@ echo -e "${gl_lv}ROOTログインの設定は完了です！${gl_bai}"
 
 root_use() {
 clear
-[ "$EUID" -ne 0 ] && echo -e "${gl_huang}ヒント：${gl_bai}この機能を実行するには root ユーザーが必要です。" && break_end && kejilion
+[ "$EUID" -ne 0 ] && echo -e "${gl_huang}ヒント：${gl_bai}この機能を使用するには、root ユーザーが実行する必要があります。" && break_end && kejilion
 }
 
 
@@ -4956,7 +4956,7 @@ dd_xitong() {
 				;;
 
 			  30)
-				send_stats "CentOS9を再インストールする"
+				send_stats "centos9を再インストールする"
 				dd_xitong_3
 				bash reinstall.sh centos 9
 				reboot
@@ -5338,7 +5338,7 @@ clamav_scan() {
 		MOUNT_PARAMS+="--mount type=bind,source=${dir},target=/mnt/host${dir} "
 	done
 
-	# clamscan コマンドのパラメータを構築する
+	# clamscan コマンドパラメータを構築する
 	local SCAN_PARAMS=""
 	for dir in "$@"; do
 		SCAN_PARAMS+="/mnt/host${dir} "
@@ -5625,7 +5625,7 @@ Kernel_optimize() {
 			  cd ~
 			  clear
 			  optimize_web_server
-			  send_stats "ウェブサイト最適化モデル"
+			  send_stats "ウェブサイト最適化モード"
 			  ;;
 		  4)
 			  cd ~
@@ -5888,9 +5888,9 @@ send_stats "コマンドのお気に入り"
 bash <(curl -l -s ${gh_proxy}raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh)
 }
 
-# バックアップを作成する
+# バックアップの作成
 create_backup() {
-	send_stats "バックアップを作成する"
+	send_stats "バックアップの作成"
 	local TIMESTAMP=$(date +"%Y%m%d%H%M%S")
 
 	# ユーザーにバックアップ ディレクトリの入力を求めるプロンプトを表示する
@@ -5932,7 +5932,7 @@ create_backup() {
 		echo "- $path"
 	done
 
-	# バックアップを作成する
+	# バックアップの作成
 	echo "バックアップの作成$BACKUP_NAME..."
 	install tar
 	tar -czvf "$BACKUP_DIR/$BACKUP_NAME" "${BACKUP_PATHS[@]}"
@@ -6560,7 +6560,7 @@ run_task() {
 	else
 		echo "同期に失敗しました!以下の点をご確認ください。"
 		echo "1. ネットワーク接続は正常ですか?"
-		echo "2. リモート ホストにアクセスできますか?"
+		echo "2. リモートホストにアクセスできるかどうか"
 		echo "3. 認証情報は正しいですか?"
 		echo "4. ローカル ディレクトリとリモート ディレクトリには正しいアクセス許可がありますか?"
 	fi
@@ -7141,7 +7141,7 @@ docker_ssh_migration() {
 			docker inspect "$c" > "$inspect_file"
 
 			if is_compose_container "$c"; then
-				echo -e "${BLUE}検出されました$cdocker-composeコンテナです${NC}"
+				echo -e "${BLUE}検出されました$cdocker-compose コンテナーです${NC}"
 				local project_dir=$(docker inspect "$c" | jq -r '.[0].Config.Labels["com.docker.compose.project.working_dir"] // empty')
 				local project_name=$(docker inspect "$c" | jq -r '.[0].Config.Labels["com.docker.compose.project"] // empty')
 
@@ -7320,7 +7320,7 @@ docker_ssh_migration() {
 
 		# /home/docker 下のファイルを復元します
 		if [ -f "$BACKUP_DIR/home_docker_files.tar.gz" ]; then
-			echo -e "${BLUE}/home/docker の下にファイルを復元しています...${NC}"
+			echo -e "${BLUE}正在还原 /home/docker 下的文件...${NC}"
 			mkdir -p /home/docker
 			tar -xzf "$BACKUP_DIR/home_docker_files.tar.gz" -C /
 			echo -e "${GREEN}/home/docker 下のファイルが復元されました${NC}"
@@ -7350,7 +7350,7 @@ docker_ssh_migration() {
 
 		echo -e "${YELLOW}バックアップを転送中...${NC}"
 		if [[ -z "$TARGET_PASS" ]]; then
-			# キーでログイン
+			# キーを使用してログインする
 			scp -P "$TARGET_PORT" -o StrictHostKeyChecking=no -r "$LATEST_TAR" "$TARGET_USER@$TARGET_IP:/tmp/"
 		fi
 
@@ -7424,7 +7424,7 @@ linux_docker() {
 	  echo -e "${gl_kjlan}5.   ${gl_bai}Dockerネットワーク管理"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}Docker ボリューム管理"
 	  echo -e "${gl_kjlan}------------------------"
-	  echo -e "${gl_kjlan}7.   ${gl_bai}不要な Docker コンテナをクリーンアップし、ネットワーク データ ボリュームをミラーリングします。"
+	  echo -e "${gl_kjlan}7.   ${gl_bai}不要な Docker コンテナをクリーンアップし、ネットワーク データ ボリュームをミラーリングします"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo -e "${gl_kjlan}8.   ${gl_bai}Dockerソースを変更する"
 	  echo -e "${gl_kjlan}9.   ${gl_bai}daemon.json ファイルを編集する"
@@ -9066,7 +9066,7 @@ while true; do
 
 	  echo -e "${gl_kjlan}1.   ${color1}パゴダパネル正式版${gl_kjlan}2.   ${color2}aaPanel パゴダ国際版"
 	  echo -e "${gl_kjlan}3.   ${color3}1Panel 新世代管理パネル${gl_kjlan}4.   ${color4}NginxProxyManager 視覚化パネル"
-	  echo -e "${gl_kjlan}5.   ${color5}OpenList マルチストア ファイル リスト プログラム${gl_kjlan}6.   ${color6}Ubuntu リモート デスクトップ Web エディション"
+	  echo -e "${gl_kjlan}5.   ${color5}OpenList マルチストア ファイル リスト プログラム${gl_kjlan}6.   ${color6}Ubuntu リモート デスクトップ Web バージョン"
 	  echo -e "${gl_kjlan}7.   ${color7}Nezha Probe VPS 監視パネル${gl_kjlan}8.   ${color8}QBオフラインBT磁気ダウンロードパネル"
 	  echo -e "${gl_kjlan}9.   ${color9}Poste.io メール サーバー プログラム${gl_kjlan}10.  ${color10}RocketChat 複数人オンライン チャット システム"
 	  echo -e "${gl_kjlan}------------------------"
@@ -9339,7 +9339,7 @@ while true; do
 			fi
 			echo ""
 			echo "------------------------"
-			echo "1. 使用方法"
+			echo "1. 使用する"
 			echo "------------------------"
 			echo "0. 前のメニューに戻る"
 			echo "------------------------"
@@ -12101,7 +12101,7 @@ while true; do
 
 		read -e -p  "ネットワーク内のクライアントの数を入力してください (デフォルトは 5):" COUNT
 		COUNT=${COUNT:-5}
-		read -e -p  "WireGuard ネットワーク セグメントを入力してください (デフォルトは 10.13.13.0)。" NETWORK
+		read -e -p  "WireGuard ネットワーク セグメントを入力してください (デフォルトは 10.13.13.0):" NETWORK
 		NETWORK=${NETWORK:-10.13.13.0}
 
 		PEERS=$(seq -f "wg%02g" 1 "$COUNT" | paste -sd,)
@@ -12783,7 +12783,7 @@ linux_work() {
 	  echo -e "${gl_kjlan}2.   ${gl_bai}作業エリア 2"
 	  echo -e "${gl_kjlan}3.   ${gl_bai}作業エリア 3"
 	  echo -e "${gl_kjlan}4.   ${gl_bai}作業エリア 4"
-	  echo -e "${gl_kjlan}5.   ${gl_bai}ワークスペースNo.5"
+	  echo -e "${gl_kjlan}5.   ${gl_bai}作業エリア5"
 	  echo -e "${gl_kjlan}6.   ${gl_bai}作業エリア6"
 	  echo -e "${gl_kjlan}7.   ${gl_bai}作業エリア 7"
 	  echo -e "${gl_kjlan}8.   ${gl_bai}作業エリア8"
@@ -13255,8 +13255,8 @@ EOF
 						;;
 					2)
 						rm -f /etc/gai.conf
-						echo "IPv6優先に切り替えました"
-						send_stats "IPv6優先に切り替えました"
+						echo "最初にIPv6に切り替えました"
+						send_stats "最初にIPv6に切り替えました"
 						;;
 
 					3)
@@ -14040,7 +14040,7 @@ EOF
 			  echo "ワンストップのシステムチューニング"
 			  echo "------------------------------------------------"
 			  echo "以下のコンテンツを運用・最適化していきます"
-			  echo "1. システムアップデートソースを最適化し、システムを最新にアップデートします。"
+			  echo "1. システムアップデートソースを最適化し、システムを最新の状態にアップデートします。"
 			  echo "2. システムジャンクファイルをクリーンアップする"
 			  echo -e "3. 仮想メモリを設定する${gl_huang}1G${gl_bai}"
 			  echo -e "4. SSH ポート番号を次のように設定します。${gl_huang}5522${gl_bai}"
@@ -14460,7 +14460,7 @@ run_commands_on_servers() {
 		local username=${SERVER_ARRAY[i+3]}
 		local password=${SERVER_ARRAY[i+4]}
 		echo
-		echo -e "${gl_huang}に接続する$name ($hostname)...${gl_bai}"
+		echo -e "${gl_huang}に接続します$name ($hostname)...${gl_bai}"
 		# sshpass -p "$password" ssh -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 		sshpass -p "$password" ssh -t -o StrictHostKeyChecking=no "$username@$hostname" -p "$port" "$1"
 	done
@@ -14611,7 +14611,7 @@ echo "------------------------"
 echo -e "${gl_zi}V.PS 月額 6.9 ドル 東京ソフトバンク 2 コア 1G メモリ 20G ハードドライブ 月額 1T トラフィック${gl_bai}"
 echo -e "${gl_bai}URL：https://vps.hosting/cart/tokyo-cloud-kvm-vps/?id=148&?affid=1355&?affid=1355${gl_bai}"
 echo "------------------------"
-echo -e "${gl_kjlan}さらに人気のある VPS オファー${gl_bai}"
+echo -e "${gl_kjlan}さらに人気のある VPS セール${gl_bai}"
 echo -e "${gl_bai}ウェブサイト：https://kejilion.pro/topvps/${gl_bai}"
 echo "------------------------"
 echo ""
