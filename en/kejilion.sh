@@ -2942,7 +2942,7 @@ while true; do
 			rm -f /home/docker/${docker_name}_port.conf
 
 			sed -i "/\b${app_id}\b/d" /home/docker/appno.txt
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 			send_stats "uninstall$docker_name"
 			;;
 
@@ -3221,7 +3221,7 @@ f2b_sshd() {
 
 # Basic parameter configuration: ban duration (bantime), time window (findtime), number of retries (maxretry)
 # illustrate:
-# - Prioritize writing to /etc/fail2ban/jail.d/sshd.local (overrides the default jail configuration and is not easy to lose when upgrading)
+# - Prioritize writing to /etc/fail2ban/jail.d/sshd.local (overwrites the default jail configuration and is not easy to lose when upgrading)
 # - If it is Alpine and the jail names are different, still write sshd.local; Fail2Ban will match according to the jail name.
 f2b_basic_config() {
 	root_use
@@ -3602,7 +3602,7 @@ ldnmp_Proxy_backend() {
 list_stream_services() {
 
 	STREAM_DIR="/home/web/stream.d"
-	printf "%-25s %-18s %-25s %-20s\n" "Service name" "Communication type" "local address" "Backend address"
+	printf "%-25s %-18s %-25s %-20s\n" "Service name" "Communication type" "Local address" "Backend address"
 
 	if [ -z "$(ls -A "$STREAM_DIR")" ]; then
 		return
@@ -4392,7 +4392,7 @@ frps_panel() {
 				close_port 8055 8056
 
 				sed -i "/\b${app_id}\b/d" /home/docker/appno.txt
-				echo "App uninstalled"
+				echo "App has been uninstalled"
 				;;
 			5)
 				echo "Reverse intranet penetration service into domain name access"
@@ -4489,7 +4489,7 @@ frpc_panel() {
 				close_port 8055
 
 				sed -i "/\b${app_id}\b/d" /home/docker/appno.txt
-				echo "App uninstalled"
+				echo "App has been uninstalled"
 				;;
 
 			4)
@@ -5094,7 +5094,7 @@ fetch_github_ssh_keys() {
 	local base_dir="${2:-$HOME}"
 
 	echo "Before proceeding, make sure you have added your SSH public key to your GitHub account:"
-	echo "1. Log in${gh_https_url}github.com/settings/keys"
+	echo "1. Login${gh_https_url}github.com/settings/keys"
 	echo "2. Click New SSH key or Add SSH key"
 	echo "3. Title can be filled in as desired (for example: Home Laptop 2026)"
 	echo "4. Paste the contents of the local public key (usually the entire contents of ~/.ssh/id_ed25519.pub or id_rsa.pub) into the Key field"
@@ -5529,7 +5529,7 @@ dd_xitong() {
 				;;
 
 			  41)
-				send_stats "Reinstall windows 11"
+				send_stats "Reinstall Windows 11"
 				dd_xitong_2
 				bash InstallNET.sh -windows 11 -lang "cn"
 				reboot
@@ -6420,7 +6420,7 @@ Kernel_optimize() {
 			  cd ~
 			  clear
 			  optimize_web_server
-			  send_stats "Website optimization model"
+			  send_stats "Website optimization mode"
 			  ;;
 		  4)
 			  cd ~
@@ -6692,9 +6692,9 @@ send_stats "Command Favorites"
 bash <(curl -l -s ${gh_proxy}raw.githubusercontent.com/byJoey/cmdbox/refs/heads/main/install.sh)
 }
 
-# Create a backup
+# Create backup
 create_backup() {
-	send_stats "Create a backup"
+	send_stats "Create backup"
 	local TIMESTAMP=$(date +"%Y%m%d%H%M%S")
 
 	# Prompt user for backup directory
@@ -6736,7 +6736,7 @@ create_backup() {
 		echo "- $path"
 	done
 
-	# Create a backup
+	# Create backup
 	echo "Creating backup$BACKUP_NAME..."
 	install tar
 	tar -czvf "$BACKUP_DIR/$BACKUP_NAME" "${BACKUP_PATHS[@]}"
@@ -7305,7 +7305,7 @@ disk_manager() {
 	send_stats "Hard disk management function"
 	while true; do
 		clear
-		echo "Hard drive partition management"
+		echo "Hard disk partition management"
 		echo -e "${gl_huang}This feature is under internal testing and should not be used in a production environment.${gl_bai}"
 		echo "------------------------"
 		list_partitions
@@ -7484,7 +7484,7 @@ run_task() {
 	else
 		echo "Sync failed! Please check the following:"
 		echo "1. Is the network connection normal?"
-		echo "2. Is the remote host accessible?"
+		echo "2. Whether the remote host is accessible"
 		echo "3. Is the authentication information correct?"
 		echo "4. Do the local and remote directories have correct access permissions?"
 	fi
@@ -8175,7 +8175,7 @@ docker_ssh_migration() {
 				local VOL_ARGS=""
 				for path in $VOL_PATHS; do VOL_ARGS+="-v $path:$path "; done
 
-				# mirror
+				# Mirror
 				local IMAGE
 				IMAGE=$(jq -r '.[0].Config.Image' "$inspect_file")
 
@@ -8336,7 +8336,7 @@ docker_ssh_migration() {
 
 		echo -e "${gl_huang}Transferring backup...${gl_bai}"
 		if [[ -z "$TARGET_PASS" ]]; then
-			# Log in with key
+			# Log in using key
 			scp -P "$TARGET_PORT" -o StrictHostKeyChecking=no -r "$LATEST_TAR" "$TARGET_USER@$TARGET_IP:/tmp/"
 		fi
 
@@ -8703,7 +8703,7 @@ linux_test() {
 	  echo -e "${gl_kjlan}14.  ${gl_bai}nxtrace fast backhaul test script"
 	  echo -e "${gl_kjlan}15.  ${gl_bai}nxtrace specifies IP backhaul test script"
 	  echo -e "${gl_kjlan}16.  ${gl_bai}ludashi2020 three network line test"
-	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc multifunctional speed test script"
+	  echo -e "${gl_kjlan}17.  ${gl_bai}i-abc multi-function speed test script"
 	  echo -e "${gl_kjlan}18.  ${gl_bai}NetQuality network quality check script${gl_huang}★${gl_bai}"
 
 	  echo -e "${gl_kjlan}------------------------"
@@ -10571,8 +10571,8 @@ PY
 
 
 	start_bot() {
-		echo "Start OpenClaw..."
-		send_stats "Start OpenClaw..."
+		echo "Starting OpenClaw..."
+		send_stats "Starting OpenClaw..."
 		start_gateway
 		break_end
 	}
@@ -11201,7 +11201,7 @@ if changed:
         json.dump(work, f, ensure_ascii=False, indent=2)
         f.write('\n')
 
-print(f'✅ {target}: Add {len(added_ids)}, delete {len(removed_ids)}, current {len(new_models)}')
+print(f'✅ {target}: Added {len(added_ids)}, deleted {len(removed_ids)}, current {len(new_models)}')
 
 if added_ids:
     print(f'➕ Add new model ({len(added_ids)}):')
@@ -11844,7 +11844,7 @@ PYTHON_EOF
 
 			models_raw=$(jq -r '.agents.defaults.models | if type == "object" then keys[] else .[] end' "$oc_config" 2>/dev/null | sed '/^\s*$/d')
 			if [ -z "$models_raw" ]; then
-				echo "Failed to get model list: agents.defaults.models not found in configuration file."
+				echo "Failed to get list of models: agents.defaults.models not found in configuration file."
 				break_end
 				return 1
 			fi
@@ -13082,7 +13082,7 @@ if os.path.isdir(agents_root):
 
 		echo "Backup directory:$backup_root"
 		if [ ${#OPENCLAW_BACKUP_FILES[@]} -eq 0 ]; then
-			echo "No backup file yet"
+			echo "No backup files yet"
 			return 0
 		fi
 
@@ -14195,7 +14195,7 @@ EOF
 		echo "document:$file"
 		echo "Total number of rows:$total_lines"
 		read -e -p "Please enter the starting line (Press Enter to default to the end of$default_linesOK):" start_line
-		read -e -p "Please enter the number of displayed lines (press Enter to default$default_lines）: " count
+		read -e -p "Please enter the number of rows to display (default is to press Enter$default_lines）: " count
 		[ -z "$count" ] && count=$default_lines
 		if [ -z "$start_line" ]; then
 			if [ "$total_lines" -le "$count" ]; then
@@ -14212,7 +14212,7 @@ EOF
 			start_line=1
 		fi
 		if [ "$count" -le 0 ]; then
-			echo "❌ The number of rows must be greater than 0."
+			echo "❌ Number of rows must be greater than 0."
 			return 1
 		fi
 		local end_line=$((start_line + count - 1))
@@ -14572,7 +14572,7 @@ print(json.dumps(data, indent=2))
 		if openclaw_has_command openclaw && echo "$json_payload" | openclaw approvals set --stdin >/dev/null 2>&1; then
 			return 0
 		fi
-		# Fallback: write file directly
+		# Fallback: Write the file directly
 		echo "$json_payload" > "$approvals_file"
 	}
 
@@ -15603,7 +15603,7 @@ while true; do
 
 	  echo -e "${gl_kjlan}1.   ${color1}Pagoda panel official version${gl_kjlan}2.   ${color2}aaPanel Pagoda International Version"
 	  echo -e "${gl_kjlan}3.   ${color3}1Panel new generation management panel${gl_kjlan}4.   ${color4}NginxProxyManager visualization panel"
-	  echo -e "${gl_kjlan}5.   ${color5}OpenList multi-store file list program${gl_kjlan}6.   ${color6}Ubuntu Remote Desktop Web Edition"
+	  echo -e "${gl_kjlan}5.   ${color5}OpenList multi-store file list program${gl_kjlan}6.   ${color6}Ubuntu Remote Desktop Web Version"
 	  echo -e "${gl_kjlan}7.   ${color7}Nezha Probe VPS Monitoring Panel${gl_kjlan}8.   ${color8}QB offline BT magnetic download panel"
 	  echo -e "${gl_kjlan}9.   ${color9}Poste.io mail server program${gl_kjlan}10.  ${color10}RocketChat multi-person online chat system"
 	  echo -e "${gl_kjlan}-------------------------"
@@ -16078,7 +16078,7 @@ while true; do
 					rm -rf /home/docker/mail
 
 					sed -i "/\b${app_id}\b/d" /home/docker/appno.txt
-					echo "App uninstalled"
+					echo "App has been uninstalled"
 					;;
 
 				*)
@@ -16132,7 +16132,7 @@ while true; do
 			docker rm -f db
 			docker rmi -f mongo:latest
 			rm -rf /home/docker/mongo
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -16230,7 +16230,7 @@ while true; do
 		docker_app_uninstall() {
 			cd /home/docker/cloud/ && docker compose down --rmi all
 			rm -rf /home/docker/cloud
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17116,7 +17116,7 @@ while true; do
 			docker rmi -f grafana/grafana:latest
 
 			rm -rf /home/docker/monitoring
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17343,7 +17343,7 @@ while true; do
 		docker_app_uninstall() {
 			cd  /home/docker/dify/docker/ && docker compose down --rmi all
 			rm -rf /home/docker/dify
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17395,7 +17395,7 @@ while true; do
 		docker_app_uninstall() {
 			cd  /home/docker/new-api/ && docker compose down --rmi all
 			rm -rf /home/docker/new-api
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17436,7 +17436,7 @@ while true; do
 			cd /opt
 			rm -rf jumpserver-installer*/
 			rm -rf jumpserver
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17499,7 +17499,7 @@ while true; do
 		docker_app_uninstall() {
 			cd  /home/docker/ragflow/docker/ && docker compose down --rmi all
 			rm -rf /home/docker/ragflow
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17827,7 +17827,7 @@ while true; do
 		docker_app_uninstall() {
 			cd /home/docker/moontv/ && docker compose down --rmi all
 			rm -rf /home/docker/moontv
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -17918,7 +17918,7 @@ while true; do
 
 		local docker_describe="Xunlei, your offline high-speed BT magnetic download tool"
 		local docker_url="Official website introduction:${gh_https_url}github.com/cnk3x/xunlei"
-		local docker_use="echo \"Log in to Xunlei with your mobile phone, and then enter the invitation code. Invitation code: Xunlei Niutong\""
+		local docker_use="echo \"Log in to Xunlei with your mobile phone and enter the invitation code. Invitation code: Xunlei Niutong\""
 		local docker_passwd=""
 		local app_size="1"
 		docker_app
@@ -18048,7 +18048,7 @@ while true; do
 		  docker_app_uninstall() {
 			  cd /home/docker/linkwarden && docker compose down --rmi all
 			  rm -rf /home/docker/linkwarden
-			  echo "App uninstalled"
+			  echo "App has been uninstalled"
 		  }
 
 		  docker_app_plus
@@ -18098,7 +18098,7 @@ while true; do
 			  cd "$(ls -dt */ | head -n 1)"
 			  docker compose down --rmi all
 			  rm -rf /home/docker/jitsi
-			  echo "App uninstalled"
+			  echo "App has been uninstalled"
 		  }
 
 		  docker_app_plus
@@ -18234,7 +18234,7 @@ while true; do
 		  docker_app_uninstall() {
 			  cd /home/docker/${docker_name} && docker compose down --rmi all
 			  rm -rf /home/docker/${docker_name}
-			  echo "App uninstalled"
+			  echo "App has been uninstalled"
 		  }
 
 		  docker_app_plus
@@ -18461,7 +18461,7 @@ while true; do
 		docker_app_uninstall() {
 			cd /home/docker/gitea/ && docker compose down --rmi all
 			rm -rf /home/docker/gitea
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -18599,7 +18599,7 @@ while true; do
 		docker_app_uninstall() {
 			cd /home/docker/paperless/ && docker compose down --rmi all
 			rm -rf /home/docker/paperless
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -18653,7 +18653,7 @@ while true; do
 		docker_app_uninstall() {
 			cd /home/docker/2fauth/ && docker compose down --rmi all
 			rm -rf /home/docker/2fauth
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -18886,7 +18886,7 @@ while true; do
 		docker_app_uninstall() {
 			cd /home/docker/dsm/ && docker compose down --rmi all
 			rm -rf /home/docker/dsm
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -18957,7 +18957,7 @@ while true; do
 		docker_app_uninstall() {
 			cd  /home/docker/MoneyPrinterTurbo/ && docker compose down --rmi all
 			rm -rf /home/docker/MoneyPrinterTurbo
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -19026,7 +19026,7 @@ while true; do
 		docker_app_uninstall() {
 			cd  /home/docker/umami/ && docker compose down --rmi all
 			rm -rf /home/docker/umami
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -19167,7 +19167,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 		docker_app_uninstall() {
 			cd  /home/docker/LangBot/docker/ && docker compose down --rmi all
 			rm -rf /home/docker/LangBot
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -19237,7 +19237,7 @@ discourse,yunsou,ahhhhfs,nsgame,gying" \
 		docker_app_uninstall() {
 			cd  /home/docker/karakeep/docker/ && docker compose down --rmi all
 			rm -rf /home/docker/karakeep
-			echo "App uninstalled"
+			echo "App has been uninstalled"
 		}
 
 		docker_app_plus
@@ -19443,7 +19443,7 @@ linux_work() {
 	  send_stats "Backend workspace"
 	  echo -e "Backend workspace"
 	  echo -e "The system will provide you with a workspace that can run permanently in the background, which you can use to perform long-term tasks."
-	  echo -e "Even if you disconnect SSH, the tasks in the workspace will not be interrupted, and the tasks will remain in the background."
+	  echo -e "Even if you disconnect SSH, the tasks in the workspace will not be interrupted, and the background tasks will persist."
 	  echo -e "${gl_huang}hint:${gl_bai}After entering the workspace, use Ctrl+b and then press d alone to exit the workspace!"
 	  echo -e "${gl_kjlan}------------------------"
 	  echo "List of currently existing workspaces"
@@ -20197,7 +20197,7 @@ linux_Settings() {
 			echo "python version management"
 			echo "Video introduction: https://www.bilibili.com/video/BV1Pm42157cK?t=0.1"
 			echo "---------------------------------------"
-			echo "This function can seamlessly install any version officially supported by python!"
+			echo "This function can seamlessly install any version officially supported by Python!"
 			local VERSION=$(python3 -V 2>&1 | awk '{print $2}')
 			echo -e "Current python version number:${gl_huang}$VERSION${gl_bai}"
 			echo "------------"
@@ -20874,7 +20874,7 @@ EOF
 					echo -e "${gl_lv}The currently set inbound traffic limit threshold is:${gl_huang}${rx_threshold_gb}${gl_lv}G${gl_bai}"
 					echo -e "${gl_lv}The currently set outbound traffic limiting threshold is:${gl_huang}${tx_threshold_gb}${gl_lv}GB${gl_bai}"
 				else
-					echo -e "${gl_hui}Current limiting shutdown function is not currently enabled${gl_bai}"
+					echo -e "${gl_hui}The current limiting shutdown function is not currently enabled${gl_bai}"
 				fi
 
 				echo
@@ -21095,7 +21095,7 @@ EOF
 			  echo -e "7. Turn on${gl_huang}BBR${gl_bai}accelerate"
 			  echo -e "8. Set time zone to${gl_huang}Shanghai${gl_bai}"
 			  echo -e "9. Automatically optimize DNS addresses${gl_huang}Overseas: 1.1.1.1 8.8.8.8 Domestic: 223.5.5.5${gl_bai}"
-		  	  echo -e "10. Set the network to${gl_huang}ipv4 priority${gl_bai}"
+		  	  echo -e "10. Set the network to${gl_huang}IPv4 priority${gl_bai}"
 			  echo -e "11. Install basic tools${gl_huang}docker wget sudo tar unzip socat btop nano vim${gl_bai}"
 			  echo -e "12. Linux system kernel parameter optimization${gl_huang}Automatically tune according to network environment${gl_bai}"
 			  echo "------------------------------------------------"
@@ -21104,7 +21104,7 @@ EOF
 			  case "$choice" in
 				[Yy])
 				  clear
-				  send_stats "One-stop tuning started"
+				  send_stats "One-stop tuning starts"
 				  echo "------------------------------------------------"
 				  switch_mirror false false
 				  linux_update
@@ -21143,7 +21143,7 @@ EOF
 				  echo -e "[${gl_lv}OK${gl_bai}] 9/12. Automatically optimize DNS address${gl_huang}${gl_bai}"
 				  echo "------------------------------------------------"
 				  prefer_ipv4
-				  echo -e "[${gl_lv}OK${gl_bai}] 10/12. Set the network to${gl_huang}ipv4 priority${gl_bai}}"
+				  echo -e "[${gl_lv}OK${gl_bai}] 10/12. Set the network to${gl_huang}IPv4 priority${gl_bai}}"
 
 				  echo "------------------------------------------------"
 				  install_docker
@@ -21526,7 +21526,7 @@ while true; do
 	  echo -e "${gl_kjlan}Execute tasks in batches${gl_bai}"
 	  echo -e "${gl_kjlan}11. ${gl_bai}Install technology lion script${gl_kjlan}12. ${gl_bai}Update system${gl_kjlan}13. ${gl_bai}Clean the system"
 	  echo -e "${gl_kjlan}14. ${gl_bai}Install docker${gl_kjlan}15. ${gl_bai}Install BBR3${gl_kjlan}16. ${gl_bai}Set 1G virtual memory"
-	  echo -e "${gl_kjlan}17. ${gl_bai}Set time zone to Shanghai${gl_kjlan}18. ${gl_bai}Open all ports${gl_kjlan}51. ${gl_bai}custom directive"
+	  echo -e "${gl_kjlan}17. ${gl_bai}Set time zone to Shanghai${gl_kjlan}18. ${gl_bai}Open all ports${gl_kjlan}51. ${gl_bai}Custom instructions"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
 	  echo -e "${gl_kjlan}0.  ${gl_bai}Return to main menu"
 	  echo -e "${gl_kjlan}------------------------${gl_bai}"
@@ -21924,7 +21924,7 @@ done
 
 
 k_info() {
-send_stats "k command reference use case"
+send_stats "k command reference examples"
 echo "-------------------"
 echo "Video introduction: https://www.bilibili.com/video/BV1ib421E7it?t=0.1"
 echo "The following is a reference use case for the k command:"
